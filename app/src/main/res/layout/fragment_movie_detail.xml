@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MovieDetailFragment">
+    tools:context=".ui.moviedetail.MovieDetailFragment">
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -54,7 +54,7 @@
         app:layout_constraintGuide_begin="334dp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/titleMovie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
