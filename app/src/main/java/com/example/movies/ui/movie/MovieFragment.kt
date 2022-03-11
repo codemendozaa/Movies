@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.ConcatAdapter
 import com.example.movies.R
 import com.example.movies.core.Resource
 import com.example.movies.data.Movie
+import com.example.movies.data.local.AppDatabase
+import com.example.movies.data.local.LocalMovieDataSource
 import com.example.movies.data.remote.RemoteMovieDataSource
 import com.example.movies.databinding.FragmentMovieBinding
 import com.example.movies.presentation.MovieViewModel
@@ -28,7 +30,8 @@ class MovieFragment : Fragment(R.layout.fragment_movie),MovieAdapter.OnMovieClic
     private val viemodel by viewModels<MovieViewModel> {
         MovieViewModelFactory(
             MovieRepositoryImpl(
-                RemoteMovieDataSource(RetrofitClient.webservice)
+                RemoteMovieDataSource(RetrofitClient.webservice),
+                LocalMovieDataSource(AppDatabase.getDatabase(requireContext()).movieDao())
             )
         )
     }
