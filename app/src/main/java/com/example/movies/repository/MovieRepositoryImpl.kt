@@ -1,5 +1,6 @@
 package com.example.movies.repository
 
+import com.example.movies.core.InternetCheck
 import com.example.movies.data.MovieList
 import com.example.movies.data.local.LocalMovieDataSource
 import com.example.movies.data.remote.RemoteMovieDataSource
@@ -12,24 +13,39 @@ class MovieRepositoryImpl(
 ) : MovieRepository {
 
     override suspend fun getUpComingMovies(): MovieList {
-        dataSourceRemote.getUpComingMovies().results.forEach { movie ->
-            dataSourceLocal.saveMovie(movie.toMovieEntity("upcoming"))
+        return if (InternetCheck.isNetworkAvailable()) {
+            dataSourceRemote.getUpComingMovies().results.forEach { movie ->
+                dataSourceLocal.saveMovie(movie.toMovieEntity("upcoming"))
+            }
+            dataSourceLocal.getUpComingMovies()
+        } else {
+            dataSourceLocal.getUpComingMovies()
         }
-        return dataSourceLocal.getUpComingMovies()
+
     }
 
     override suspend fun getTopRatedMovies(): MovieList {
-        dataSourceRemote.getTopReatedMovies().results.forEach { movie ->
-            dataSourceLocal.saveMovie(movie.toMovieEntity("toprated"))
+        return if (InternetCheck.isNetworkAvailable()) {
+            dataSourceRemote.getTopReatedMovies().results.forEach { movie ->
+                dataSourceLocal.saveMovie(movie.toMovieEntity("toprated"))
+            }
+            dataSourceLocal.getTopReatedMovies()
+        } else {
+            dataSourceLocal.getTopReatedMovies()
         }
-        return dataSourceLocal.getTopReatedMovies()
+
     }
 
     override suspend fun getPopularMovies(): MovieList {
-        dataSourceRemote.getPoPularMovies().results.forEach { movie ->
-            dataSourceLocal.saveMovie(movie.toMovieEntity("popular"))
+        return if (InternetCheck.isNetworkAvailable()) {
+            dataSourceRemote.getPoPularMovies().results.forEach { movie ->
+                dataSourceLocal.saveMovie(movie.toMovieEntity("popular"))
+            }
+            dataSourceLocal.getPoPularMovies()
+        } else {
+            dataSourceLocal.getPoPularMovies()
         }
-        return dataSourceLocal.getPoPularMovies()
+
     }
 
 }
